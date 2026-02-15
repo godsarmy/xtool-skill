@@ -128,6 +128,22 @@ What `xtool dev` handles:
 
 Note: first run can be significantly slower due to cold module compilation; subsequent runs are faster with cache reuse.
 
+Useful `xtool dev` parameters:
+
+- `-c, --configuration <debug|release>`: build configuration (default: `debug`).
+- `-u, --udid <udid>`: target a specific device.
+- `--usb | --network | --all`: device discovery scope (default: `--all`).
+
+Examples:
+
+```bash
+# Build release and deploy to one device
+xtool dev run --configuration release --udid <DEVICE_UDID> --usb
+
+# Deploy using network-discovered devices
+xtool dev run --network
+```
+
 ### 3) Iterate
 
 - Edit code.
@@ -181,6 +197,65 @@ extensions:
     infoPath: HelloWidget-Info.plist
 ```
 
+## CLI parameters reference
+
+Top-level subcommands (`xtool --help`):
+
+- Configuration: `setup`, `auth`, `sdk`
+- Development: `new`, `dev`, `ds`
+- Device: `devices`, `install`, `uninstall`, `launch`
+
+### `xtool new`
+
+- Usage: `xtool new [<name>] [--skip-setup]`
+- `<name>`: project name.
+- `--skip-setup`: skip automatic `xtool setup` before project generation.
+
+### `xtool setup`
+
+- Usage: `xtool setup`
+- Runs auth + SDK setup workflow (equivalent to `xtool auth && xtool sdk`).
+
+### `xtool auth login`
+
+- Usage: `xtool auth login [--username <username>] [--password <password>] [--mode <key|password>]`
+- `-u, --username`: Apple ID.
+- `-p, --password`: password for password mode.
+- `-m, --mode <key|password>`: authentication mode.
+
+### `xtool sdk install`
+
+- Usage: `xtool sdk install <path>`
+- `<path>`: path to `Xcode.xip` or `Xcode.app`.
+
+### `xtool devices`
+
+- Usage: `xtool devices [--usb] [--network] [--all] [--wait] [--no-wait]`
+- `--usb | --network | --all`: connection search mode (default: `--all`).
+- `--wait | --no-wait`: wait for a device if none is found (default: `--wait`).
+
+### `xtool install`
+
+- Usage: `xtool install [--udid <udid>] [--usb] [--network] [--all] <path>`
+- `<path>`: local app/ipa path.
+- `-u, --udid`: install to a specific device.
+
+### `xtool uninstall`
+
+- Usage: `xtool uninstall [--udid <udid>] [--usb] [--network] [--all] <bundle-id>`
+- `<bundle-id>`: app identifier to remove.
+
+### `xtool launch`
+
+- Usage: `xtool launch [--udid <udid>] [--usb] [--network] [--all] <bundle-id> [<arg> ...]`
+- `<bundle-id>`: app identifier to launch.
+- `[<arg> ...]`: launch arguments passed to the app.
+
+### Global options
+
+- `--version`: print version.
+- `-h, --help`: show help.
+
 ## Troubleshooting checklist
 
 - Device trust prompt appeared and install failed:
@@ -210,3 +285,14 @@ Use this to verify merged `Info.plist`, copied resources, and expected bundle co
 - https://xtool.sh/tutorials/xtool/first-app/
 - https://xtool.sh/documentation/xtool/control/
 - https://xtool.sh/documentation/xtool/appex/
+- Local runtime help output from:
+  - `xtool --help`
+  - `xtool dev --help`
+  - `xtool setup --help`
+  - `xtool new --help`
+  - `xtool auth --help`
+  - `xtool sdk --help`
+  - `xtool devices --help`
+  - `xtool install --help`
+  - `xtool uninstall --help`
+  - `xtool launch --help`
