@@ -53,10 +53,19 @@ ideviceinfo
 ```
 
 3. Download `Xcode.xip` from Apple Developer downloads in a browser.
-4. Install xtool and verify:
+4. Download latest `xtool` AppImage for your architecture, rename it to `xtool`, add it to your `PATH`, and verify:
+
+   - Releases page: https://github.com/xtool-org/xtool/releases
 
 ```bash
+curl -fL \
+  "https://github.com/xtool-org/xtool/releases/latest/download/xtool-$(uname -m).AppImage" \
+  -o xtool
+chmod +x xtool
+sudo mv xtool /usr/local/bin/
+
 xtool --help
+# OVERVIEW: Cross-platform Xcode replacement
 ```
 
 5. Run initial setup:
@@ -80,13 +89,27 @@ swift sdk list
 xcrun -sdk iphoneos -show-sdk-path
 ```
 
-3. Install xtool and verify:
+3. Install `xtool`:
+
+   - If you have Homebrew (recommended):
+
+```bash
+brew install xtool-org/tap/xtool
+```
+
+   - Otherwise, download `xtool.app` from the latest GitHub release, move it to `/Applications`, launch it, and run the suggested script to add `xtool` to your `PATH`.
+     - Releases page: https://github.com/xtool-org/xtool/releases
+
+4. Confirm installation:
 
 ```bash
 xtool --help
+# OVERVIEW: Cross-platform Xcode replacement
 ```
 
-4. Run setup:
+Note: Manual installs require checking GitHub releases and updating yourself. Auto-updates via Sparkle are tracked in issue #34.
+
+5. Run setup:
 
 ```bash
 xtool setup
